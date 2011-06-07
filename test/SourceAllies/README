@@ -1,0 +1,12 @@
+This folder is where source code for all testing subprojects of Beanoh.Net are located.
+ 
+There should be one subproject under this directory for each of the testing assemblies
+that will be executed when Beanoh.Net is built. Each subproject should be named
+exactly how the target assembly should be named, without .dll at the end.
+ 
+Currently identified subprojects are:
+ 
+Each subproject should set root namespace to "SourceAllies.Beanoh". Source code should always be in subdirectories matching
+the namespace. 
+
+Other subprojects should have similar structure.

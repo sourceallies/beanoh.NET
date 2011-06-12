@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SourceAllies.Beanoh.Spring.Wrapper;
+using SourceAllies.Beanoh.Util;
 #endregion
 
 namespace SourceAllies.Beanoh
@@ -37,6 +38,11 @@ namespace SourceAllies.Beanoh
     public class BeanohTestCase
     {
         private BeanohApplicationContext context;
+        //private Set<String> ignoredClassNames;
+        //private Set<String> ignoredPackages;
+        //private Set<String> ignoredDuplicateBeanNames;
+        //private MessageUtil messageUtil = new MessageUtil();
+        private DefaultContextLocationBuilder defaultContextLocationBuilder = new DefaultContextLocationBuilder();
 
         /// <summary>
         /// Loads every object in the Spring context. Import Spring context files in the bootstrap context. 
@@ -51,7 +57,7 @@ namespace SourceAllies.Beanoh
 
         private void AssertContextLoading(bool AssertUniqueBeans)
         {
-           // LoadContext();
+            LoadContext();
           //  iterateBeanDefinitions(new BeanDefinitionAction() {
 		//	@Override
 		//	public void execute(String name, BeanDefinition definition) {
@@ -63,17 +69,30 @@ namespace SourceAllies.Beanoh
 
         }
 
-        private void loadContext()
+        //public void setUp() 
+        //public void assertContextLoading() 
+        //public void assertUniqueBeanContextLoading() 
+        //public void assertComponentsInContext(String basePackage) 
+        //public void ignoreClassNames(String... classNames) 
+        //public void ignorePackages(String... packages)
+        //public void ignoreDuplicateBeanNames(String... beanNames)
+        //private void assertContextLoading(boolean assertUniqueBeans)
+        //private String missingList(Set<String> missingComponents)
+        //private void iterateBeanDefinitions(BeanDefinitionAction action)
+        //private void removeComponentsInPackages(final Set<String> scannedComponents) 
+        //private void removeIgnoredClasses(final Set<String> scannedComponents)
+        //private void collectComponentsInClasspath(String basePackage,	final Set<String> scannedComponents,ClassPathScanningCandidateComponentProvider scanner)
+
+        private void LoadContext()
         {
             if (context == null)
             { 
-            //    String contextLocation = defaultContextLocationBuilder
-            //            .build(getClass());
-            //    context = new BeanohApplicationContext(contextLocation);
-            //    try
-            //    {
-            //        context.refresh();
-            //    }
+                String contextLocation = defaultContextLocationBuilder.build(GetType());
+                context = new BeanohApplicationContext(contextLocation);
+                //try
+                //{
+                    context.Refresh();
+                //}
             //    catch (BeanDefinitionParsingException e)
             //    {
             //        throw e;

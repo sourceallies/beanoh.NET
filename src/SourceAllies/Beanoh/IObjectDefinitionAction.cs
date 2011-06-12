@@ -22,29 +22,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Spring.Context.Support;
 #endregion
 
-namespace SourceAllies.Beanoh.Spring.Wrapper
+namespace SourceAllies.Beanoh
 {
     /// <summary>
-    /// Wraps XML context loading in order to track loaded bean definitions. This information is 
-    /// used to determine if duplicate object definitions have been loaded.
+    /// This interface provides functionality around object definitions that can be
+    /// executed later.
     /// </summary>
     /// <author>David Kessler</author>
     /// <author>Akrem Saed (.NET)</author>
-    public class BeanohApplicationContext : XmlApplicationContext 
+    interface IObjectDefinitionAction
     {
-        public BeanohApplicationContext(String configLocation)
-            : base(configLocation /*, "com/sourceallies/beanoh/spring/Base-BeanohContext.xml"*/)
-        {
-            // TODO add a default configLocation in constructor e.g. com/sourceallies/beanoh/spring/Base-BeanohContext.xml
-
-            // TODO set 'refresh' to false in the current context
-            //super(new String[] { configLocation, "com/sourceallies/beanoh/spring/Base-BeanohContext.xml" }, false);
-
-            //TODO add callbacks interceptors 
-            //callbacks = new ArrayList<BeanohBeanFactoryMethodInterceptor>();
-        }
+        void Execute(String Name /*, BeanDefinition Definition*/);
     }
 }

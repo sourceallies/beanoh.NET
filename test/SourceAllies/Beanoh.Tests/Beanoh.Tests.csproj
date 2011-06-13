@@ -96,15 +96,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Loading\Basic\BasicWiringTest-BeanohContext.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Loading\Scope\MissingPrototypeBeanDefinitionTest-BeanohContext.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Loading\Basic\BasicWiringTest-BeanohContext.xml" />
+    <EmbeddedResource Include="Loading\Scope\MissingPrototypeBeanDefinitionTest-BeanohContext.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

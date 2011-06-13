@@ -24,6 +24,10 @@ using System.Linq;
 using System.Text;
 using SourceAllies.Beanoh.Spring.Wrapper;
 using SourceAllies.Beanoh.Util;
+using SourceAllies.Beanoh.Exception;
+using Spring.Objects.Factory.Config;
+using Spring.Objects.Factory.Parsing;
+using Spring.Objects.Factory;
 #endregion
 
 namespace SourceAllies.Beanoh
@@ -58,30 +62,35 @@ namespace SourceAllies.Beanoh
         private void AssertContextLoading(bool AssertUniqueBeans)
         {
             LoadContext();
-          //  iterateBeanDefinitions(new BeanDefinitionAction() {
-		//	@Override
-		//	public void execute(String name, BeanDefinition definition) {
-			//	context.getBean(name);
-		//	}
-		//});
+            IterateBeanDefinitions(new ObjectDefinitionGetter(this));
+            
 		//if (assertUniqueBeans)
 		//	context.assertUniqueBeans(ignoredDuplicateBeanNames);
 
         }
 
-        //public void setUp() 
-        //public void assertContextLoading() 
-        //public void assertUniqueBeanContextLoading() 
-        //public void assertComponentsInContext(String basePackage) 
-        //public void ignoreClassNames(String... classNames) 
-        //public void ignorePackages(String... packages)
-        //public void ignoreDuplicateBeanNames(String... beanNames)
-        //private void assertContextLoading(boolean assertUniqueBeans)
-        //private String missingList(Set<String> missingComponents)
-        //private void iterateBeanDefinitions(BeanDefinitionAction action)
-        //private void removeComponentsInPackages(final Set<String> scannedComponents) 
-        //private void removeIgnoredClasses(final Set<String> scannedComponents)
-        //private void collectComponentsInClasspath(String basePackage,	final Set<String> scannedComponents,ClassPathScanningCandidateComponentProvider scanner)
+        //public void SetUp() 
+        //public void AssertContextLoading() 
+        //public void AssertUniqueBeanContextLoading() 
+        //public void AssertComponentsInContext(String basePackage) 
+        //public void IgnoreClassNames(String... classNames) 
+        //public void IgnorePackages(String... packages)
+        //public void IgnoreDuplicateBeanNames(String... beanNames)
+        //private void AssertContextLoading(boolean assertUniqueBeans)
+        //private String MissingList(Set<String> missingComponents)
+        private void IterateBeanDefinitions(IObjectDefinitionAction action)
+        {
+		    String[] names = context.GetObjectDefinitionNames();
+		    foreach (String name in names) {
+			    IObjectDefinition objectDefinition = context.ObjectFactory.GetObjectDefinition(name);
+			    if (!objectDefinition.IsAbstract) {
+				    action.Execute(name, objectDefinition);
+			    }
+		    }
+        }
+        //private void RemoveComponentsInPackages(final Set<String> scannedComponents) 
+        //private void RemoveIgnoredClasses(final Set<String> scannedComponents)
+        //private void CollectComponentsInClasspath(String basePackage,	final Set<String> scannedComponents,ClassPathScanningCandidateComponentProvider scanner)
 
         private void LoadContext()
         {
@@ -89,19 +98,19 @@ namespace SourceAllies.Beanoh
             { 
                 String contextLocation = defaultContextLocationBuilder.build(GetType());
                 context = new BeanohApplicationContext(contextLocation);
-                //try
-                //{
+                try
+                {
                     context.Refresh();
-                //}
-            //    catch (BeanDefinitionParsingException e)
-            //    {
-            //        throw e;
-            //    }
-            //    catch (BeanDefinitionStoreException e)
-            //    {
-            //        throw new MissingConfigurationException("Unable to locate "
-            //                + contextLocation + ".");
-            //    }
+                }
+                catch (ObjectDefinitionParsingException e)
+                {
+                    throw e;
+                }
+               catch (ObjectDefinitionStoreException e)
+                {
+                    throw new MissingConfigurationException("Unable to locate "
+                            + contextLocation + ".");
+                }
 
             //    context.getBeanFactory().registerScope("session",
             //            new SessionScope());
@@ -113,6 +122,20 @@ namespace SourceAllies.Beanoh
             //    RequestContextHolder.setRequestAttributes(attributes);
             }
         }
+
+    protected class ObjectDefinitionGetter : IObjectDefinitionAction 
+    {
+        BeanohTestCase outerObject;
+        public ObjectDefinitionGetter(BeanohTestCase outerObject) 
+        {
+            this.outerObject = outerObject;
+        }
+        public void Execute(String Name, IObjectDefinition Definition) 
+        {
+            this.outerObject.context.GetObject(Name);   
+        }
+    }
+
 
     }
 }

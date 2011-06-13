@@ -22,19 +22,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Spring.Objects.Factory.Config;
+using System.Runtime.ExceptionServices;
+using Spring.Context.Support;
 #endregion
 
-namespace SourceAllies.Beanoh
+namespace SourceAllies.Beanoh.Exception
 {
-    /// <summary>
-    /// This interface provides functionality around object definitions that can be
-    /// executed later.
-    /// </summary>
-    /// <author>David Kessler</author>
-    /// <author>Akrem Saed (.NET)</author>
-    interface IObjectDefinitionAction
+    class MissingConfigurationException : System.ApplicationException
     {
-        void Execute(String Name, IObjectDefinition Definition);
+    
+        public MissingConfigurationException() : base() {}
+        public MissingConfigurationException(string message) : base(message) {}
+        public MissingConfigurationException(string message, System.Exception inner) : base(message, inner) { }
+
+        protected MissingConfigurationException(System.Runtime.Serialization.SerializationInfo info,
+        System.Runtime.Serialization.StreamingContext context) : base(info, context) {}
     }
 }

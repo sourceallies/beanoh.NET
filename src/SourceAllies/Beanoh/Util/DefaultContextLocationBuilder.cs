@@ -45,21 +45,23 @@ namespace SourceAllies.Beanoh.Util
 
             StringBuilder builder = new StringBuilder();
 
-            /*
+            //"assembly://MyAssembly/MyDataAccess/data-access.xml
             builder.Append("assembly://");
             builder.Append(type.Assembly.GetName().Name);
+            builder.Append("/");
             builder.Append(type.Namespace);
             builder.Append("/");
             builder.Append(type.Name);
             builder.Append("-BeanohContext.xml");
-            */
+            
 
             // TODO come up with a suitable convetion for location of config file location that works for assemblies and ordninary projects
-            builder.Append("file://");
+           /* builder.Append("file://");
             builder.Append(type.Name);
-            builder.Append("-BeanohContext.xml");
+            builder.Append("-BeanohContext.xml"); */
+            
             LOGGER.Debug(builder.ToString());
-
+            
             return builder.ToString();
         }
 

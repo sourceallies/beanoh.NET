@@ -97,9 +97,10 @@ namespace SourceAllies.Beanoh
             if (context == null)
             { 
                 String contextLocation = defaultContextLocationBuilder.build(GetType());
-                context = new BeanohApplicationContext(contextLocation);
+                
                 try
                 {
+                    context = new BeanohApplicationContext(contextLocation);
                     context.Refresh();
                 }
                 catch (ObjectDefinitionParsingException e)

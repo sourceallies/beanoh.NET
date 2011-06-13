@@ -1,0 +1,4 @@
+
+#Ignore files build by Visual Studio
+*.suo
+/packages/

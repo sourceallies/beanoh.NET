@@ -25,15 +25,15 @@ using System.Text;
 using NUnit.Framework;
 #endregion
 
-namespace SourceAllies.Beanoh.Loading.Scan
+namespace SourceAllies.Beanoh.Loading.Scope
 {
     [TestFixture]
-   public class ComponentScanTest : BeanohTestCase 
+    class MissingPrototypeBeanDefinitionTest : BeanCreationExceptionTestCase 
     {
         [Test]
-        public void TestScanning()
+        public void TestMissing()
         {
-            AssertContextLoading();
+            AssertMissing("homeAddress");
         }
     }
 }

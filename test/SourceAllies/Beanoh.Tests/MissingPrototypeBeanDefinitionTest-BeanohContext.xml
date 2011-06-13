@@ -16,16 +16,12 @@ License along with this library; if not, please visit
 http://www.gnu.org/licenses/lgpl-3.0.txt.
 -->
 <objects xmlns="http://www.springframework.net">
-
-  <!-- TODO add component scan equivalent and test it -->
-  <!--<context:component-scan base-package="com.sourceallies.test"/>-->
-  
-  <object id="AddressObjectFromXML" type="SourceAllies.Beanoh.Test.Address, Beanoh.Tests"/>
-  <object id="PersonObjectFromXML" type="SourceAllies.Beanoh.Test.Person, Beanoh.Tests">
-    <property name="Addresses">
-      <list element-type="SourceAllies.Beanoh.Test.Address">
-        <ref object="AddressObjectFromXML"/>
+  <!-- singleton=false means a prototype -->
+  <object id="person" type="SourceAllies.Beanoh.Test.Person, Beanoh.Tests" singleton="false">
+    <property name="addresses">
+      <list>
+        <ref object="homeAddress"/>
       </list>
     </property>
   </object>
-</objects> 
+</objects>

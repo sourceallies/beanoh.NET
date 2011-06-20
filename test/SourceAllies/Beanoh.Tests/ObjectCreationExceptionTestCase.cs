@@ -28,7 +28,7 @@ using Spring.Objects.Factory;
 
 namespace SourceAllies.Beanoh
 {
-    class BeanCreationExceptionTestCase : BeanohTestCase
+    class ObjectCreationExceptionTestCase : BeanohTestCase
     {
         public void AssertMissing(String missingBeanId)
         {

@@ -28,7 +28,7 @@ using NUnit.Framework;
 namespace SourceAllies.Beanoh.Loading.Scope
 {
     [TestFixture]
-    class MissingPrototypeBeanDefinitionTest : BeanCreationExceptionTestCase 
+    class MissingPrototypeBeanDefinitionTest : ObjectCreationExceptionTestCase 
     {
         [Test]
         public void TestMissing()

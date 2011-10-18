@@ -33,7 +33,7 @@ namespace SourceAllies.Beanoh.Util
     /// </summary>
     /// <author>David Kessler</author>
     /// <author>Akrem Saed (.NET)</author>
-    class DefaultContextLocationBuilder
+   public class DefaultContextLocationBuilder
     {
         private static ILog LOGGER = LogManager.GetLogger(typeof(DefaultContextLocationBuilder));
 

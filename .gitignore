@@ -2,3 +2,7 @@
 #Ignore files build by Visual Studio
 *.suo
 /packages/
+/src/SourceAllies/Beanoh/bin
+/src/SourceAllies/Beanoh/obj
+/test/SourceAllies/Beanoh.Tests/bin
+/test/SourceAllies/Beanoh.Tests/obj

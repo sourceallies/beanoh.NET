@@ -1,4 +1,5 @@
-﻿#region License
+﻿
+#region License
 /* 
  * Copyright (c) 2011 Source Allies
  * 
@@ -28,7 +29,7 @@ using NUnit.Framework;
 namespace SourceAllies.Beanoh.Loading.Scope
 {
     [TestFixture]
-    class MissingPrototypeBeanDefinitionTest : ObjectCreationExceptionTestCase 
+    class MissingSessionObjectDefinitionTest : ObjectCreationExceptionTestCase
     {
         [Test]
         public void TestMissing()
@@ -37,3 +38,4 @@ namespace SourceAllies.Beanoh.Loading.Scope
         }
     }
 }
+

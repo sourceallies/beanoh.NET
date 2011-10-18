@@ -110,10 +110,10 @@ namespace SourceAllies.Beanoh
                catch (ObjectDefinitionStoreException e)
                 {
                     throw new MissingConfigurationException("Unable to locate "
-                            + contextLocation + ".");
+                            + contextLocation + ".", e);
                 }
 
-            //    context.getBeanFactory().registerScope("session",
+               // context.ObjectFactory.registerScope("session",
             //            new SessionScope());
             //    context.getBeanFactory().registerScope("request",
             //            new RequestScope());

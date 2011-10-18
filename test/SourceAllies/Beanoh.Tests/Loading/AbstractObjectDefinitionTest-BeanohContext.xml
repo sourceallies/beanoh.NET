@@ -16,12 +16,16 @@ License along with this library; if not, please visit
 http://www.gnu.org/licenses/lgpl-3.0.txt.
 -->
 <objects xmlns="http://www.springframework.net">
-  <!-- singleton=false means a prototype -->
-  <object id="person" type="SourceAllies.Beanoh.Test.Person, Beanoh.Tests" singleton="false">
-    <property name="addresses">
-      <list>
-        <ref object="homeAddress"/>
+
+  
+  <object id="abstractPerson" type="SourceAllies.Beanoh.Test.Person, Beanoh.Tests" abstract="true">
+    <property name="Addresses">
+      <list element-type="SourceAllies.Beanoh.Test.Address">
+        <object type="SourceAllies.Beanoh.Test.Address, Beanoh.Tests"/>
       </list>
     </property>
   </object>
+
+  <object id="person" parent="abstractPerson"/>
+  
 </objects>

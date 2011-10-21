@@ -91,7 +91,7 @@ namespace SourceAllies.Beanoh.Spring.Wrapper
 								+ key + "' was defined "
 								+ resourceDescriptions.Count + " times." 
                                 + Environment.NewLine
-                                + "Either remove duplicate object definitions or ignore them with the 'ignoredDuplicateObjectNames' method." 
+                                + "Either remove duplicate object definitions or ignore them with the 'IgnoreDuplicateObjectNames' method." 
                                 + Environment.NewLine
 								+ "Configuration locations:"
 								+ MessageUtil.list(resourceDescriptions));

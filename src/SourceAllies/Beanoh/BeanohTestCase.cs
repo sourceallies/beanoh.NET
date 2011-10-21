@@ -45,7 +45,6 @@ namespace SourceAllies.Beanoh
         private ISet<String> ignoredClassNames;
         private ISet<String> ignoredNamespaces;
         private ISet<String> ignoredDuplicateObjectNames;
-        //private MessageUtil messageUtil = new MessageUtil();
         private DefaultContextLocationBuilder defaultContextLocationBuilder = new DefaultContextLocationBuilder();
 
         [SetUp] 
@@ -84,13 +83,20 @@ namespace SourceAllies.Beanoh
             AssertContextLoading(true);
         }
 
+        public void IgnoreDuplicateObjectNames(params string[] objectNames)
+        {
+            foreach (string objectName in objectNames) 
+            {
+			    ignoredDuplicateObjectNames.Add(objectName);
+		    }
+        }
         
-        //public void AssertContextLoading() 
+        
         
         //public void AssertComponentsInContext(String basePackage) 
         //public void IgnoreClassNames(String... classNames) 
         //public void IgnorePackages(String... packages)
-        //public void IgnoreDuplicateBeanNames(String... beanNames)
+        
         //private void AssertContextLoading(boolean assertUniqueBeans)
         //private String MissingList(Set<String> missingComponents)
         private void IterateBeanDefinitions(IObjectDefinitionAction action)

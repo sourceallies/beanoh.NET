@@ -74,6 +74,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Configuration\MissingConfigurationTest.cs" />
     <Compile Include="Duplicate\DuplicateObjectTest.cs" />
+    <Compile Include="Duplicate\Ignore\IgnoreDuplicateObjectTest.cs" />
     <Compile Include="Loading\AbstractObjectDefinitionTest.cs" />
     <Compile Include="Loading\Basic\BasicWiringTest.cs" />
     <Compile Include="Loading\Scope\MissingPrototypeObjectDefinitionTest.cs" />
@@ -139,6 +140,17 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Duplicate\SecondDuplicate-context.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Duplicate\Ignore\FirstIgnoreDuplicate-context.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Duplicate\Ignore\SecondIgnoreDuplicate-context.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Duplicate\Ignore\IgnoreDuplicateObjectTest-BeanohContext.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

@@ -26,31 +26,30 @@ using System.Runtime.ExceptionServices;
 using Spring.Context.Support;
 #endregion
 
+
 namespace SourceAllies.Beanoh.Exception
 {
     /// <summary>
-    /// Exception that is thrown when Beanoh cannot find Spring.net configuration resources
+    /// Exception that is thrown when Beanoh finds more than object defined with the same id
     /// </summary>
     /// <author>Akrem Saed</author>
-   public class MissingConfigurationException : System.ApplicationException
+    public class DuplicateObjectDefinitionException : System.ApplicationException
     {
-    
-       public MissingConfigurationException() 
+        public DuplicateObjectDefinitionException() 
             : base() 
         { }
-       
-       public MissingConfigurationException(string message) 
+        
+        public DuplicateObjectDefinitionException(string message) 
             : base(message) 
         { }
-       
-       public MissingConfigurationException(string message, System.Exception inner) 
+        
+        public DuplicateObjectDefinitionException(string message, System.Exception inner) 
             : base(message, inner) 
         { }
 
-        protected MissingConfigurationException(
+        protected DuplicateObjectDefinitionException(
             System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) 
             : base(info, context) 
         { }
-
     }
 }

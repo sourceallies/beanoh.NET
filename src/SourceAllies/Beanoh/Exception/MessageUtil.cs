@@ -22,18 +22,31 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Spring.Objects.Factory.Config;
+using System.Runtime.ExceptionServices;
+using Spring.Context.Support;
 #endregion
 
-namespace SourceAllies.Beanoh
+namespace SourceAllies.Beanoh.Exception
 {
     /// <summary>
-    /// This interface provides functionality around object definitions that can be
-    /// executed later.
+    /// Utiltiy class to assist with producing meaningful text messages
     /// </summary>
-    /// <author>Akrem Saed (.NET)</author>
-    interface IObjectDefinitionAction
+    /// <author>Akrem Saed</author>
+    class MessageUtil
     {
-        void Execute(String Name, IObjectDefinition Definition);
+        /// <summary>
+        /// Separates messages into lines
+        /// </summary>
+        public static string list(IList<string> messages) 
+        {
+		    IList<string> sortedComponents = new List<string>(messages);
+            sortedComponents.OrderBy(s => s);
+		    string output = "";
+		    foreach (string component in sortedComponents) 
+            {
+                output += Environment.NewLine + component;
+		    }
+		    return output;
+	    }
     }
 }

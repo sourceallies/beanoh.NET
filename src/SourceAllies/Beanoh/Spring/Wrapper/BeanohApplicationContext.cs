@@ -23,28 +23,82 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Spring.Context.Support;
+using Spring.Objects.Factory.Xml;
+using Castle.DynamicProxy;
+using Spring.Objects.Factory.Support;
+using Spring.Objects.Factory.Config;
+using SourceAllies.Beanoh.Exception;
 #endregion
 
 namespace SourceAllies.Beanoh.Spring.Wrapper
 {
     /// <summary>
-    /// Wraps XML context loading in order to track loaded bean definitions. This information is 
+    /// Wraps XML context loading in order to track loaded object definitions. This information is 
     /// used to determine if duplicate object definitions have been loaded.
     /// </summary>
-    /// <author>David Kessler</author>
-    /// <author>Akrem Saed (.NET)</author>
+    /// <author>Akrem Saed</author>
     public class BeanohApplicationContext : XmlApplicationContext 
     {
+        private IList<BeanohObjectFactoryMethodInterceptor> callbacks;
+
         public BeanohApplicationContext(String configLocation)
-            : base(configLocation /*, "com/sourceallies/beanoh/spring/Base-BeanohContext.xml"*/)
+            : base(false, "beanohAppContext", true, null, 
+            new String[] { configLocation, "assembly://Beanoh/SourceAllies.Beanoh.Spring/Base-BeanohContext.xml" })
         {
-            // TODO add a default configLocation in constructor e.g. com/sourceallies/beanoh/spring/Base-BeanohContext.xml
+            // TODO add an embedded data source in assembly://Beanoh/SourceAllies.Beanoh.Spring/Base-BeanohContext.xml
+            
+            callbacks = new List<BeanohObjectFactoryMethodInterceptor>();
+        }
 
-            // TODO set 'refresh' to false in the current context
-            //super(new String[] { configLocation, "com/sourceallies/beanoh/spring/Base-BeanohContext.xml" }, false);
+        protected override void LoadObjectDefinitions(DefaultListableObjectFactory  objectFactory)
+        {
+            callbacks.Add(new BeanohObjectFactoryMethodInterceptor(objectFactory));
+            ProxyGenerator generator = new ProxyGenerator();
+            DefaultListableObjectFactory wrapper = (DefaultListableObjectFactory)generator.CreateClassProxy(objectFactory.GetType(), callbacks.ToArray());
+            base.LoadObjectDefinitions(wrapper);
+        }
 
-            //TODO add callbacks interceptors 
-            //callbacks = new ArrayList<BeanohBeanFactoryMethodInterceptor>();
+       
+        public void AssertUniqueObjects(ISet<String> ignoredDuplicateObjectNames)
+        {
+            
+            foreach (BeanohObjectFactoryMethodInterceptor callback in callbacks) 
+            {
+			IDictionary<string, IList<IObjectDefinition>> objectDefinitionMap = callback.ObjectDefinitionMap;
+			foreach (string key in objectDefinitionMap.Keys) {
+				if (!ignoredDuplicateObjectNames.Contains(key)) {
+					IList<IObjectDefinition> definitions = objectDefinitionMap[key];
+					IList<string> resourceDescriptions = new List<string>();
+					foreach (IObjectDefinition definition in definitions) 
+                    {
+						String resourceDescription = definition.ResourceDescription;
+						if (resourceDescription == null) 
+                        {
+							resourceDescriptions.Add(definition.ObjectTypeName);
+						} 
+                        else if (!resourceDescription.EndsWith("-BeanohContext.xml]")) 
+                        {
+							if(!resourceDescriptions.Contains(resourceDescription))
+                            {
+								resourceDescriptions.Add(resourceDescription);
+							}
+						}
+					}
+					
+                    if (resourceDescriptions.Count > 1) 
+                    {
+						throw new DuplicateObjectDefinitionException("Object '"
+								+ key + "' was defined "
+								+ resourceDescriptions.Count + " times." 
+                                + Environment.NewLine
+                                + "Either remove duplicate object definitions or ignore them with the 'ignoredDuplicateObjectNames' method." 
+                                + Environment.NewLine
+								+ "Configuration locations:"
+								+ MessageUtil.list(resourceDescriptions));
+					}
+				}
+			}
+		}
         }
     }
 }

@@ -28,6 +28,7 @@ using SourceAllies.Beanoh.Exception;
 using Spring.Objects.Factory.Config;
 using Spring.Objects.Factory.Parsing;
 using Spring.Objects.Factory;
+using NUnit.Framework;
 #endregion
 
 namespace SourceAllies.Beanoh
@@ -37,16 +38,23 @@ namespace SourceAllies.Beanoh
     /// leverage Beanoh spend less time focusing on configuring Spring and more time
     /// adding business value
     /// </summary>
-    /// <author>David Kessler</author>
     /// <author>Akrem Saed (.NET)</author>
     public class BeanohTestCase
     {
         private BeanohApplicationContext context;
-        //private Set<String> ignoredClassNames;
-        //private Set<String> ignoredPackages;
-        //private Set<String> ignoredDuplicateBeanNames;
+        private ISet<String> ignoredClassNames;
+        private ISet<String> ignoredNamespaces;
+        private ISet<String> ignoredDuplicateObjectNames;
         //private MessageUtil messageUtil = new MessageUtil();
         private DefaultContextLocationBuilder defaultContextLocationBuilder = new DefaultContextLocationBuilder();
+
+        [SetUp] 
+        public void SetUp()
+        {
+            ignoredClassNames = new HashSet<String>();
+		    ignoredNamespaces = new HashSet<String>();
+		    ignoredDuplicateObjectNames = new HashSet<String>();
+        }
 
         /// <summary>
         /// Loads every object in the Spring context. Import Spring context files in the bootstrap context. 
@@ -63,15 +71,22 @@ namespace SourceAllies.Beanoh
         {
             LoadContext();
             IterateBeanDefinitions(new ObjectDefinitionGetter(this));
-            
-		//if (assertUniqueBeans)
-		//	context.assertUniqueBeans(ignoredDuplicateBeanNames);
+
+            if (AssertUniqueBeans)
+            {
+                context.AssertUniqueObjects(ignoredDuplicateObjectNames);
+            }
 
         }
 
-        //public void SetUp() 
+        public void AssertUniqueObjectContextLoading()
+        {
+            AssertContextLoading(true);
+        }
+
+        
         //public void AssertContextLoading() 
-        //public void AssertUniqueBeanContextLoading() 
+        
         //public void AssertComponentsInContext(String basePackage) 
         //public void IgnoreClassNames(String... classNames) 
         //public void IgnorePackages(String... packages)
@@ -113,14 +128,7 @@ namespace SourceAllies.Beanoh
                             + contextLocation + ".", e);
                 }
 
-               // context.ObjectFactory.registerScope("session",
-            //            new SessionScope());
-            //    context.getBeanFactory().registerScope("request",
-            //            new RequestScope());
-            //    MockHttpServletRequest request = new MockHttpServletRequest();
-            //    ServletRequestAttributes attributes = new ServletRequestAttributes(
-            //            request);
-            //    RequestContextHolder.setRequestAttributes(attributes);
+               // TODO  : verify that we don't need to register request and session scopes here
             }
         }
 

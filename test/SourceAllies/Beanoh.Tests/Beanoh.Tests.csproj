@@ -72,14 +72,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="BeanCreationExceptionTestCase.cs" />
+    <Compile Include="Configuration\MissingConfigurationTest.cs" />
+    <Compile Include="Duplicate\DuplicateObjectTest.cs" />
+    <Compile Include="Loading\AbstractObjectDefinitionTest.cs" />
     <Compile Include="Loading\Basic\BasicWiringTest.cs" />
-    <Compile Include="Loading\Scope\MissingPrototypeBeanDefinitionTest.cs" />
+    <Compile Include="Loading\Scope\MissingPrototypeObjectDefinitionTest.cs" />
+    <Compile Include="Loading\Scope\MissingRequestObjectDefinitionTest.cs" />
+    <Compile Include="Loading\Scope\MissingSessionObjectDefinitionTest.cs" />
+    <Compile Include="ObjectCreationExceptionTestCase.cs" />
     <Compile Include="Test\Address.cs" />
     <Compile Include="Test\Person.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Config\" />
+    <Folder Include="Duplicate\AOP\" />
+    <Folder Include="Duplicate\Unique\" />
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
@@ -89,15 +96,51 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="log4net.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Loading\Basic\BasicWiringTest-BeanohContext.xml" />
-    <EmbeddedResource Include="Loading\Scope\MissingPrototypeBeanDefinitionTest-BeanohContext.xml" />
+    <EmbeddedResource Include="Loading\Basic\BasicWiringTest-BeanohContext.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Loading\Scope\MissingRequestObjectDefinitionTest-BeanohContext.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Loading\Scope\MissingPrototypeObjectDefinitionTest-BeanohContext.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Loading\Scope\MissingSessionObjectDefinitionTest-BeanohContext.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Loading\AbstractObjectDefinitionTest-BeanohContext.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Duplicate\DuplicateObjectTest-BeanohContext.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Duplicate\FirstDuplicate-context.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Duplicate\SecondDuplicate-context.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

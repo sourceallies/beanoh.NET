@@ -76,7 +76,7 @@ namespace SourceAllies.Beanoh.Spring.Wrapper
                         {
 							resourceDescriptions.Add(definition.ObjectTypeName);
 						} 
-                        else if (!resourceDescription.EndsWith("-BeanohContext.xml]")) 
+                        else if (!resourceDescription.Contains("-BeanohContext.xml]")) 
                         {
 							if(!resourceDescriptions.Contains(resourceDescription))
                             {
@@ -94,7 +94,7 @@ namespace SourceAllies.Beanoh.Spring.Wrapper
                                 + "Either remove duplicate object definitions or ignore them with the 'IgnoreDuplicateObjectNames' method." 
                                 + Environment.NewLine
 								+ "Configuration locations:"
-								+ MessageUtil.list(resourceDescriptions));
+								+ MessageUtil.List(resourceDescriptions));
 					}
 				}
 			}

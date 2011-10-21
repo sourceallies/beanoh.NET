@@ -22,31 +22,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Runtime.ExceptionServices;
-using Spring.Context.Support;
+using NUnit.Framework;
+using SourceAllies.Beanoh.Util;
+using SourceAllies.Beanoh.Exception;
 #endregion
 
 namespace SourceAllies.Beanoh.Exception
 {
-    /// <summary>
-    /// Utiltiy class to assist with producing meaningful text messages
-    /// </summary>
-    /// <author>Akrem Saed</author>
-    public class MessageUtil
+    [TestFixture]
+    class MessageUtilTest 
     {
-        /// <summary>
-        /// Separates messages into lines
-        /// </summary>
-        public static string List(IList<string> messages) 
+        [Test]
+        public void TestList()
         {
-		    IList<string> sortedComponents = new List<string>(messages);
-            sortedComponents.OrderBy(s => s);
-		    string output = "";
-		    foreach (string component in sortedComponents) 
-            {
-                output += Environment.NewLine + component;
-		    }
-		    return output;
-	    }
+            IList<string> names = new List<string>();
+            names.Add("Aa");
+            names.Add("Cc");
+            names.Add("Bb");
+            Assert.AreEqual(Environment.NewLine + "Aa" + Environment.NewLine + "Cc" + Environment.NewLine + "Bb",
+                MessageUtil.List(names));
+        }
+
     }
 }

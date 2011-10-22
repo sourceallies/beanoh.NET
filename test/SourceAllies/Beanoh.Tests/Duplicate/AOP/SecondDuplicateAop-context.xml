@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Copyright (c) 2011  Source Allies
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation version 3.0.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, please visit 
+http://www.gnu.org/licenses/lgpl-3.0.txt.
+-->
+<objects xmlns="http://www.springframework.net" xmlns:tx="http://www.springframework.net/tx" xmlns:aop="http://www.springframework.net/aop">
+  <!--<context:component-scan base-package="com.sourceallies"/>-->
+  <!-- TODO replace the person objects below with codeconfig scanning -->
+  
+  <object id="autoProxyCreator"
+              type="Spring.Aop.Framework.AutoProxy.DefaultAdvisorAutoProxyCreator, Spring.Aop">
+  </object>
+ 
+  <object id="personPointcut" type="Spring.Aop.Support.SdkRegularExpressionMethodPointcut, Spring.Aop">
+    <property name="patterns">
+      <list>
+        <value>SourceAllies.Beanoh.Test.Person.*</value>
+        <value>SourceAllies.Beanoh.Test.Address.*</value>
+      </list>
+    </property>
+  </object>
+  <object name="loggingAdvice" type="Spring.Aspects.Logging.SimpleLoggingAdvice, Spring.Aop">
+    <property name="logUniqueIdentifier" value="true"/>
+    <property name="logExecutionTime"    value="true"/>
+    <property name="logMethodArguments"  value="true"/>
+    <property name="Separator"           value=";"/>
+    <property name="HideProxyTypeNames"  value="true"/>
+    <property name="UseDynamicLogger"    value="true"/>
+    <property name="LogLevel"            value="Info"/>
+  </object>
+  <aop:config>
+    <aop:advisor id="personAdvisor" order="1" advice-ref="loggingAdvice" pointcut-ref="personPointcut"/>
+  </aop:config>
+
+  <object id="transactionManager" type="NUnit.Mocks.Mock, nunit.mocks">
+    <constructor-arg value="Spring.Data.Core.TxScopeTransactionManager, Spring.Data"/>
+  </object>
+
+  <object id="person" type="SourceAllies.Beanoh.Test.Person, Beanoh.Tests">
+    <property name="isMarried" value="true"/>
+    <property name="Addresses">
+      <list element-type="SourceAllies.Beanoh.Test.Address">
+        <ref object="address"/>
+      </list>
+    </property>
+  </object>
+  <object id="address" type="SourceAllies.Beanoh.Test.Address, Beanoh.Tests"/>
+  
+</objects>

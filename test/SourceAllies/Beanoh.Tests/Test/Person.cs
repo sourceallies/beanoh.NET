@@ -26,7 +26,7 @@ using System.Text;
 
 namespace SourceAllies.Beanoh.Test
 {
-    class Person
+    public class Person
     {
         private List<Address> addresses;
         private bool married;

@@ -22,11 +22,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NUnit.Framework;
+using SourceAllies.Beanoh.Util;
+using SourceAllies.Beanoh.Exception;
 #endregion
 
-namespace SourceAllies.Beanoh.Test
+namespace SourceAllies.Beanoh.Duplicate.AOP.Unique
 {
-    public class Address
+    [TestFixture]
+    class UniqueAopObjectTest : BeanohTestCase
     {
+        [Test]
+        public void TestScanning() 
+        {
+            AssertUniqueObjectContextLoading();
+        }
     }
 }

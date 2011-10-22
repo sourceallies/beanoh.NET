@@ -48,7 +48,7 @@ namespace SourceAllies.Beanoh.Duplicate
                     + Environment.NewLine
                     + "Configuration locations:"
                     + Environment.NewLine
-                    + "assembly [Beanoh.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null], resource [SourceAllies.Beanoh.Duplicate.FirstDuplicate-context.xml] line 20"
+                    + "assembly [Beanoh.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null], resource [SourceAllies.Beanoh.Duplicate.FirstDuplicate-context.xml] line 21"
                     + Environment.NewLine
                     + "assembly [Beanoh.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null], resource [SourceAllies.Beanoh.Duplicate.SecondDuplicate-context.xml] line 20",
                     e.Message);

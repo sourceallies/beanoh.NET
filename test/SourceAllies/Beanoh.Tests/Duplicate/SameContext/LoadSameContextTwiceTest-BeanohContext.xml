@@ -15,9 +15,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, please visit 
 http://www.gnu.org/licenses/lgpl-3.0.txt.
 -->
-<objects xmlns="http://www.springframework.net" xmlns:db="http://www.springframework.net/database">
- 
-  <object id="address" type="SourceAllies.Beanoh.Test.Address, Beanoh.Tests"/>
-  <object id="person" type="SourceAllies.Beanoh.Test.Person, Beanoh.Tests"/>
-
+<objects xmlns="http://www.springframework.net">
+  <import resource="../FirstDuplicate-context.xml"/>
+  <import resource="../FirstDuplicate-context.xml"/>
 </objects>

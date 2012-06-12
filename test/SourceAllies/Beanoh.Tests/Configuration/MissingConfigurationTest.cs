@@ -45,7 +45,7 @@ namespace SourceAllies.Beanoh.Configuration
               {
                   DefaultContextLocationBuilder contextBuilder = new DefaultContextLocationBuilder();
                   
-                  Assert.True(e.ToString().Contains("Unable to locate " +  contextBuilder.build(this.GetType()) ));
+                  Assert.True(e.ToString().Contains("Unable to load " +  contextBuilder.build(this.GetType()) ));
               }
           }
     }

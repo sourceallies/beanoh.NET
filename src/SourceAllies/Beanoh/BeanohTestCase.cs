@@ -130,7 +130,7 @@ namespace SourceAllies.Beanoh
                 }
                catch (ObjectDefinitionStoreException e)
                 {
-                    throw new MissingConfigurationException("Unable to locate "
+                    throw new MissingConfigurationException("Unable to load "
                             + contextLocation + ".", e);
                 }
 

@@ -80,6 +80,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="A\A.cs" />
     <Compile Include="B\B.cs" />
+    <Compile Include="Configuration\CorruptConfigurationTest.cs" />
     <Compile Include="Configuration\MissingConfigurationTest.cs" />
     <Compile Include="C\C.cs" />
     <Compile Include="Duplicate\AOP\DuplicateAopObjectTest.cs" />
@@ -219,6 +220,11 @@
   <ItemGroup>
     <EmbeddedResource Include="Duplicate\AOP\DuplicateAopObjectTest-BeanohContext.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Configuration\CorruptConfigurationTest-BeanohContext.xml">
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\..\Build.xml" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -51,19 +52,26 @@
     <Reference Include="pnunit.framework">
       <HintPath>..\..\..\packages\NUnit.2.5.10.11092\lib\pnunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="Spring.Aop">
-      <HintPath>..\..\..\packages\Spring.Aop.1.3.1\lib\Net40\Spring.Aop.dll</HintPath>
+    <Reference Include="Spring.Aop, Version=1.3.2.40943, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Spring.Aop.1.3.2\lib\net40\Spring.Aop.dll</HintPath>
     </Reference>
-    <Reference Include="Spring.Core, Version=1.3.1.40711, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Spring.Core.1.3.1\lib\Net40\Spring.Core.dll</HintPath>
+    <Reference Include="Spring.Core, Version=1.3.2.40943, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Spring.Core.1.3.2\lib\net40\Spring.Core.dll</HintPath>
     </Reference>
     <Reference Include="Spring.Core.Configuration">
       <HintPath>..\..\..\packages\Spring.CodeConfig.1.0.1\lib\net40\Spring.Core.Configuration.dll</HintPath>
     </Reference>
+    <Reference Include="Spring.Data">
+      <HintPath>..\..\..\packages\Spring.Data.1.3.2\lib\net40\Spring.Data.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data.Entity" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
@@ -72,22 +80,32 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="A\A.cs" />
+    <Compile Include="B\B.cs" />
     <Compile Include="Configuration\MissingConfigurationTest.cs" />
+    <Compile Include="C\C.cs" />
+    <Compile Include="Duplicate\AOP\DuplicateAopObjectTest.cs" />
+    <Compile Include="Duplicate\AOP\Unique\UniqueAopObjectTest.cs" />
     <Compile Include="Duplicate\DuplicateObjectTest.cs" />
     <Compile Include="Duplicate\Ignore\IgnoreDuplicateObjectTest.cs" />
+    <Compile Include="Duplicate\SameContext\LoadSameContextTwiceNoResourceTest.cs" />
+    <Compile Include="Duplicate\SameContext\LoadSameContextTwiceTest.cs" />
+    <Compile Include="Duplicate\Unique\UniqueObjectTest.cs" />
+    <Compile Include="Exception\MessageUtilTest.cs" />
     <Compile Include="Loading\AbstractObjectDefinitionTest.cs" />
     <Compile Include="Loading\Basic\BasicWiringTest.cs" />
     <Compile Include="Loading\Scope\MissingPrototypeObjectDefinitionTest.cs" />
     <Compile Include="Loading\Scope\MissingRequestObjectDefinitionTest.cs" />
     <Compile Include="Loading\Scope\MissingSessionObjectDefinitionTest.cs" />
     <Compile Include="ObjectCreationExceptionTestCase.cs" />
+    <Compile Include="Property\PropertyPlaceholderConfigurerLoadingTest.cs" />
+    <Compile Include="Property\Variable\VariablePlaceholderConfigurerLoadingTest.cs" />
     <Compile Include="Test\Address.cs" />
     <Compile Include="Test\Person.cs" />
+    <Compile Include="Util\DefaultContextLocationBuilderTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Config\" />
-    <Folder Include="Duplicate\AOP\" />
-    <Folder Include="Duplicate\Unique\" />
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
@@ -105,6 +123,9 @@
     </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="props.properties">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +172,54 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Duplicate\Ignore\IgnoreDuplicateObjectTest-BeanohContext.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Duplicate\SameContext\LoadSameContextTwiceTest-BeanohContext.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Duplicate\Unique\UniqueObjectTest-BeanohContext.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Property\PropertyPlaceholderConfigurerLoadingTest-BeanohContext.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Property\Variable\VariablePlaceholderConfigurerLoadingTest-BeanohContext.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Duplicate\SameContext\LoadSameContextTwiceNoResourceTest-BeanohContext.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Duplicate\SameContext\FirstDuplicateDataSource-context.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Duplicate\AOP\Unique\UniqueAopObjectTest-BeanohContext.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Duplicate\AOP\FirstDuplicateAop-context.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Duplicate\AOP\SecondDuplicateAop-context.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Duplicate\AOP\DuplicateAopObjectTest-BeanohContext.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

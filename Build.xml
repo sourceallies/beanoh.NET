@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<!--   
+  This build file is using MSBuild. You can run it from the command line by executing the following command : 
+    %WinDir%\Microsoft.NET\Framework64\v4.0.30319\msbuild Build.xml /t:Run
+
+-->
+  
+  <!-- the following are properties specific to this project -->
+
+  <PropertyGroup>
+    <OutputPath>.\bin\</OutputPath>
+    <SrcProjectName>Beanoh</SrcProjectName>
+    <TestsProjectName>Beanoh.Tests</TestsProjectName>
+    <SrcProjectDir>.\src\SourceAllies\Beanoh</SrcProjectDir>
+    <TestsProjectDir>.\test\SourceAllies\Beanoh.Tests</TestsProjectDir>
+    <DistDir>dist</DistDir>
+    <DistFiles>$(SrcProjectDir)\bin\$(SrcProjectName).dll</DistFiles>
+  </PropertyGroup>
+
+
+  <!-- the following are general to all projects -->
+ 
+  
+  <Target Name="Clean">
+    <RemoveDir Directories="$(DistDir)" />
+    <RemoveDir Directories="$(SrcProjectDir)\bin" />
+    <RemoveDir Directories="$(TestsProjectDir)\bin" />
+  </Target>
+
+  <Target Name="Compile" DependsOnTargets="Clean">
+    <MSBuild Projects="$(SrcProjectDir)\$(SrcProjectName).csproj"/>
+    <MSBuild Projects="$(TestsProjectDir)\$(TestsProjectName).csproj"/>
+  </Target>
+
+  <Target Name="Publish"  DependsOnTargets="Clean">
+    <ItemGroup>
+      <Binaries Include="$(DistFiles)" />
+    </ItemGroup>
+    <Copy SourceFiles ="@(Binaries)" DestinationFolder="$(DistDir)\" />
+  </Target>
+  
+  <Target Name="Run">
+    <CallTarget Targets="Compile" />
+    <CallTarget Targets="Publish" />
+  </Target>
+
+</Project>

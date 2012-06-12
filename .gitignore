@@ -6,3 +6,6 @@
 /src/SourceAllies/Beanoh/obj
 /test/SourceAllies/Beanoh.Tests/bin
 /test/SourceAllies/Beanoh.Tests/obj
+/dist/
+/src/SourceAllies/Beanoh/output
+/test/SourceAllies/Beanoh.Tests/output

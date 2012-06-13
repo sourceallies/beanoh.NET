@@ -1,9 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<!--
+Copyright (c) 2011  Source Allies
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation version 3.0.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, please visit 
+http://www.gnu.org/licenses/lgpl-3.0.txt.
+-->
+<Project DefaultTargets="Run" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 <!--   
   This build file is using MSBuild. You can run it from the command line by executing the following command : 
     %WinDir%\Microsoft.NET\Framework64\v4.0.30319\msbuild Build.xml /t:Run
 
+  Required for running the build : 
+    1) MSBuild has to be installed. It's usually included in .NET framework install packages and Visual Studio.
+    
+    2) MSBuildCommunityTasks v1.4.0.42 to be installed. The build file expects to find the following file at the following location
+      F:\development\NETBuildTools\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets
+      
+    3) NUnit v2.5.10 has to be installed such that the following path is valid : 
+      F:\development\NETBuildTools\NUnit.v2.5.10\nunit-console.exe
+    
 -->
   
   <!-- the following are properties specific to this project -->
@@ -20,7 +45,13 @@
 
 
   <!-- the following are general to all projects -->
- 
+
+  
+  <PropertyGroup>
+    <MSBuildExtensionsPath>F:\development\NETBuildTools</MSBuildExtensionsPath>
+  </PropertyGroup>
+
+  <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets" />
   
   <Target Name="Clean">
     <RemoveDir Directories="$(DistDir)" />
@@ -28,11 +59,23 @@
     <RemoveDir Directories="$(TestsProjectDir)\bin" />
   </Target>
 
+  <!-- compile and generate DLLs for the source project and test project -->
   <Target Name="Compile" DependsOnTargets="Clean">
     <MSBuild Projects="$(SrcProjectDir)\$(SrcProjectName).csproj"/>
     <MSBuild Projects="$(TestsProjectDir)\$(TestsProjectName).csproj"/>
   </Target>
 
+  <!-- Run Unit tests found in the test project's dll -->
+  <Target Name="Test" DependsOnTargets="Compile">
+    <CreateItem Include="$(TestsProjectDir)\bin\$(TestsProjectName).dll">
+      <Output TaskParameter="Include" ItemName="TestAssembly" />
+    </CreateItem>
+    <MakeDir Directories="$(OutputPath)" Condition="!Exists('$(OutputPath)')" />
+    <NUnit ToolPath="$(MSBuildExtensionsPath)\NUnit.v2.5.10" Assemblies="@(TestAssembly)" 
+            OutputXmlFile="$(OutputPath)\NUnitTestResults.xml" />
+  </Target>
+
+  <!-- publish dll of the source project -->
   <Target Name="Publish"  DependsOnTargets="Clean">
     <ItemGroup>
       <Binaries Include="$(DistFiles)" />
@@ -40,8 +83,9 @@
     <Copy SourceFiles ="@(Binaries)" DestinationFolder="$(DistDir)\" />
   </Target>
   
+  <!-- the following target builds the whole solution and publish the artifacts produced -->
   <Target Name="Run">
-    <CallTarget Targets="Compile" />
+    <CallTarget Targets="Test" />
     <CallTarget Targets="Publish" />
   </Target>
 

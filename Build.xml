@@ -28,19 +28,22 @@ http://www.gnu.org/licenses/lgpl-3.0.txt.
       
     3) NUnit v2.5.10 has to be installed such that the following path is valid : 
       F:\development\NETBuildTools\NUnit.v2.5.10\nunit-console.exe
+      
+     4) nunit-results v1.1 has to be installed such that it can be found by : 
+        F:\development\NETBuildTools\nunit-results-1.1-bin\nunit-results.exe
     
 -->
   
   <!-- the following are properties specific to this project -->
 
   <PropertyGroup>
-    <OutputPath>.\bin\</OutputPath>
+    <OutputPath>.\build\</OutputPath>
     <SrcProjectName>Beanoh</SrcProjectName>
     <TestsProjectName>Beanoh.Tests</TestsProjectName>
     <SrcProjectDir>.\src\SourceAllies\Beanoh</SrcProjectDir>
     <TestsProjectDir>.\test\SourceAllies\Beanoh.Tests</TestsProjectDir>
     <DistDir>dist</DistDir>
-    <DistFiles>$(SrcProjectDir)\bin\$(SrcProjectName).dll</DistFiles>
+    <DistFiles>$(SrcProjectDir)\build\$(SrcProjectName).dll</DistFiles>
   </PropertyGroup>
 
 
@@ -55,8 +58,9 @@ http://www.gnu.org/licenses/lgpl-3.0.txt.
   
   <Target Name="Clean">
     <RemoveDir Directories="$(DistDir)" />
-    <RemoveDir Directories="$(SrcProjectDir)\bin" />
-    <RemoveDir Directories="$(TestsProjectDir)\bin" />
+    <RemoveDir Directories="$(OutputPath)"/>
+    <RemoveDir Directories="$(SrcProjectDir)\build" />
+    <RemoveDir Directories="$(TestsProjectDir)\build" />
   </Target>
 
   <!-- compile and generate DLLs for the source project and test project -->
@@ -67,14 +71,25 @@ http://www.gnu.org/licenses/lgpl-3.0.txt.
 
   <!-- Run Unit tests found in the test project's dll -->
   <Target Name="Test" DependsOnTargets="Compile">
-    <CreateItem Include="$(TestsProjectDir)\bin\$(TestsProjectName).dll">
+    <CreateItem Include="$(TestsProjectDir)\build\$(TestsProjectName).dll">
       <Output TaskParameter="Include" ItemName="TestAssembly" />
     </CreateItem>
-    <MakeDir Directories="$(OutputPath)" Condition="!Exists('$(OutputPath)')" />
+    
+    <MakeDir Directories="$(OutputPath)\NUnitResults" Condition="!Exists('$(OutputPath)\NUnitResults')" />
     <NUnit ToolPath="$(MSBuildExtensionsPath)\NUnit.v2.5.10" Assemblies="@(TestAssembly)" 
-            OutputXmlFile="$(OutputPath)\NUnitTestResults.xml" />
+            OutputXmlFile="$(OutputPath)\NUnitResults\TestResults.xml"
+            />
   </Target>
 
+  <!-- transform nunit test results from xml to html -->
+  <Target Name="Transform">
+    <ItemGroup>
+      <NunitXml Include="$(OutputPath)\NUnitTestResults.xml"/>
+    </ItemGroup>
+    <Exec Command="$(MSBuildExtensionsPath)\nunit-results-1.1-bin\nunit-results.exe $(OutputPath)\NUnitResults\TestResults.xml $(OutputPath)\NUnitResults\"/>
+  </Target>
+  
+  
   <!-- publish dll of the source project -->
   <Target Name="Publish"  DependsOnTargets="Clean">
     <ItemGroup>
@@ -86,6 +101,7 @@ http://www.gnu.org/licenses/lgpl-3.0.txt.
   <!-- the following target builds the whole solution and publish the artifacts produced -->
   <Target Name="Run">
     <CallTarget Targets="Test" />
+    <CallTarget Targets="Transform" />
     <CallTarget Targets="Publish" />
   </Target>
 

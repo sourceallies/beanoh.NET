@@ -1,10 +1,11 @@
 
 #Ignore files build by Visual Studio
 *.suo
+/build/
 /packages/
-/src/SourceAllies/Beanoh/bin
+/src/SourceAllies/Beanoh/build
 /src/SourceAllies/Beanoh/obj
-/test/SourceAllies/Beanoh.Tests/bin
+/test/SourceAllies/Beanoh.Tests/build
 /test/SourceAllies/Beanoh.Tests/obj
 /dist/
 /src/SourceAllies/Beanoh/output

@@ -30,7 +30,10 @@ http://www.gnu.org/licenses/lgpl-3.0.txt.
       F:\development\NETBuildTools\NUnit.v2.5.10\nunit-console.exe
       
      4) nunit-results v1.1 has to be installed such that it can be found by : 
-        F:\development\NETBuildTools\nunit-results-1.1-bin\nunit-results.exe
+       F:\development\NETBuildTools\nunit-results-1.1-bin\nunit-results.exe
+        
+     5) NuGet has to be installed such that the following path is valid : 
+       F:\development\NETBuildTools\NuGet\NuGet.exe 
     
 -->
   
@@ -98,11 +101,19 @@ http://www.gnu.org/licenses/lgpl-3.0.txt.
     <Copy SourceFiles ="@(Binaries)" DestinationFolder="$(DistDir)\" />
   </Target>
   
+  <!-- pack the nuget package with symbols and put it in the dist folder -->
+  <Target Name="NugetPack" DependsOnTargets="Compile; Publish">
+
+    <Exec Command="$(MSBuildExtensionsPath)\NuGet\NuGet pack $(SrcProjectDir)\$(SrcProjectName).csproj -OutputDirectory $(DistDir)\ -Symbols"/>
+    
+  </Target>
+  
   <!-- the following target builds the whole solution and publish the artifacts produced -->
   <Target Name="Run">
     <CallTarget Targets="Test" />
     <CallTarget Targets="Transform" />
     <CallTarget Targets="Publish" />
+    <CallTarget Targets="NugetPack" />
   </Target>
 
 </Project>

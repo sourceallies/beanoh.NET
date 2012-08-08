@@ -69,6 +69,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
   </ItemGroup>
   <ItemGroup>
@@ -77,6 +78,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ado\SpringAdoTemplate.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="A\A.cs" />
     <Compile Include="B\B.cs" />
@@ -93,6 +95,7 @@
     <Compile Include="Exception\MessageUtilTest.cs" />
     <Compile Include="Loading\AbstractObjectDefinitionTest.cs" />
     <Compile Include="Loading\Basic\BasicWiringTest.cs" />
+    <Compile Include="Loading\Override\OverrideDbProviderDefinition.cs" />
     <Compile Include="Loading\Scope\MissingPrototypeObjectDefinitionTest.cs" />
     <Compile Include="Loading\Scope\MissingRequestObjectDefinitionTest.cs" />
     <Compile Include="Loading\Scope\MissingSessionObjectDefinitionTest.cs" />
@@ -161,6 +164,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Duplicate\SecondDuplicate-context.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -225,6 +229,16 @@
   <ItemGroup>
     <EmbeddedResource Include="Configuration\CorruptConfigurationTest-BeanohContext.xml">
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Loading\Override\OverrideDbProviderDefinition-BeanohContext.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Loading\Override\DbProviderDefinition-context.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

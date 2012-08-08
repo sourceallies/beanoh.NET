@@ -16,10 +16,14 @@ License along with this library; if not, please visit
 http://www.gnu.org/licenses/lgpl-3.0.txt.
 -->
 <objects xmlns="http://www.springframework.net">
-   
-  <object id="AbstractBeanohDbProvider"
-     type="SourceAllies.Beanoh.Util.BeanohDbProviderFactory, Beanoh"
-     factory-method="CreateMockedDbProvider" 
-          abstract="true"/>
+
+  <!-- 
+  This bootstrap context will load a context that requires a dbProvider which is not provided. 
+  Beanoh.NET provides a convenience data source definition that can be used to override such dependencies 
+   -->
+
+  <import resource="DbProviderDefinition-context.xml"/>
+
+  <object id="DbProvider" parent="AbstractBeanohDbProvider"/>
 
 </objects>

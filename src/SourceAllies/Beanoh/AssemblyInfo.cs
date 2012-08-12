@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Beanoh")]
-[assembly: AssemblyDescription("Beanoh is a simple open source way to verify you Spring context. Teams that leverage Beanoh spend less time focusing on configuring Spring and more time adding business value")]
+[assembly: AssemblyDescription("Beanoh.NET is a simple open source way to verify you Spring context. Teams that leverage Beanoh spend less time focusing on configuring Spring and more time adding business value")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Akrem Saed")]
 

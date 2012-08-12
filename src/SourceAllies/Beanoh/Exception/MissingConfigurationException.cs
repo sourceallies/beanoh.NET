@@ -29,7 +29,7 @@ using Spring.Context.Support;
 namespace SourceAllies.Beanoh.Exception
 {
     /// <summary>
-    /// Exception that is thrown when Beanoh cannot find Spring.net configuration resources
+    /// Exception that is thrown when Beanoh.NET cannot load Spring.NET context resources
     /// </summary>
     /// <author>Akrem Saed</author>
    public class MissingConfigurationException : System.ApplicationException

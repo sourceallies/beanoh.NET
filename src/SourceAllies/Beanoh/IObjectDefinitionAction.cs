@@ -31,7 +31,7 @@ namespace SourceAllies.Beanoh
     /// This interface provides functionality around object definitions that can be
     /// executed later.
     /// </summary>
-    /// <author>Akrem Saed (.NET)</author>
+    /// <author>Akrem Saed</author>
     interface IObjectDefinitionAction
     {
         void Execute(String Name, IObjectDefinition Definition);

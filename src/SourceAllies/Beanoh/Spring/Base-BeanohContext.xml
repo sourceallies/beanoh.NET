@@ -16,10 +16,10 @@ License along with this library; if not, please visit
 http://www.gnu.org/licenses/lgpl-3.0.txt.
 -->
 <objects xmlns="http://www.springframework.net">
-   
+
   <object id="AbstractBeanohDbProvider"
      type="SourceAllies.Beanoh.Util.BeanohDbProviderFactory, Beanoh"
-     factory-method="CreateMockedDbProvider" 
+     factory-method="CreateMockedDbProvider"
           abstract="true"/>
 
 </objects>

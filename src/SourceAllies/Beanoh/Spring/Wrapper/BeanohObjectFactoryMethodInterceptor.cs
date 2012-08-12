@@ -29,7 +29,7 @@ using Castle.DynamicProxy;
 namespace SourceAllies.Beanoh.Spring.Wrapper
 {
     /// <summary>
-    /// A proxy that delegates to a real Spring.net object factory. This collects the arguments that are passed 
+    /// A proxy that delegates to a real Spring.NET objectFactory. This proxy collects the arguments that are passed 
     /// to the RegisterObjectDefinition method on the object factory. These object definitions are inspected later by the
     /// BeanohApplicationContext to determine if there are duplicate object definitions.
     /// </summary>
@@ -40,12 +40,12 @@ namespace SourceAllies.Beanoh.Spring.Wrapper
         private System.Type proxiedType;
         private IDictionary<string, IList<IObjectDefinition>> objectDefinitionMap;
 
-        public BeanohObjectFactoryMethodInterceptor ( DefaultListableObjectFactory proxiedFactory) 
+        public BeanohObjectFactoryMethodInterceptor(DefaultListableObjectFactory proxiedFactory)
         {
-		    this.proxiedFactory = proxiedFactory;
+            this.proxiedFactory = proxiedFactory;
             this.proxiedType = proxiedFactory.GetType();
             this.objectDefinitionMap = new Dictionary<string, IList<IObjectDefinition>>();
-	    }
+        }
 
         public IDictionary<string, IList<IObjectDefinition>> ObjectDefinitionMap
         {
@@ -76,7 +76,7 @@ namespace SourceAllies.Beanoh.Spring.Wrapper
             //use reflection to call the method on the proxied object
             System.Reflection.MethodInfo methodInfo = proxiedType.GetMethod(methodName);
             object methodReturn = methodInfo.Invoke(proxiedFactory, arguments);
-        
+
             //put the real return value into DynamicProxy
             invocation.Proceed();
             invocation.ReturnValue = methodReturn;

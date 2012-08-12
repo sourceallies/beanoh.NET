@@ -32,10 +32,10 @@ namespace SourceAllies.Beanoh.Util
     ///  Factory that constructs a mocked IDbProvider with some methods stubbed so it can be used 
     ///  to override object definitions that require a dbProvider object.
     /// </summary>
-    /// <author>Akrem Saed (.NET)</author>
+    /// <author>Akrem Saed</author>
     class BeanohDbProviderFactory
     {
-        
+
         static public IDbProvider CreateMockedDbProvider()
         {
             Mock<IDbProvider> mockDbProvider = new Mock<IDbProvider>();
@@ -44,10 +44,10 @@ namespace SourceAllies.Beanoh.Util
 
             mockDbProvider.Setup(foo => foo.CreateConnection()).Returns(mockDbConnection.Object);
             mockDbProvider.Setup(foo => foo.CreateDataAdapter()).Returns(mockDbDataAdapter.Object);
-            
+
             return mockDbProvider.Object;
         }
-      
+
 
     }
 }

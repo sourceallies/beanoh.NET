@@ -34,11 +34,11 @@ using NUnit.Framework;
 namespace SourceAllies.Beanoh
 {
     /// <summary>
-    /// Beanoh is a simple open source way to verify you Spring context. Teams that
-    /// leverage Beanoh spend less time focusing on configuring Spring and more time
+    /// Beanoh.NET is a simple open source way to verify you Spring.NET context. Teams that
+    /// leverage Beanoh.NET spend less time focusing on configuring Spring and more time
     /// adding business value
     /// </summary>
-    /// <author>Akrem Saed (.NET)</author>
+    /// <author>Akrem Saed</author>
     public class BeanohTestCase
     {
         private BeanohApplicationContext context;
@@ -47,18 +47,18 @@ namespace SourceAllies.Beanoh
         private ISet<String> ignoredDuplicateObjectNames;
         private DefaultContextLocationBuilder defaultContextLocationBuilder = new DefaultContextLocationBuilder();
 
-        [SetUp] 
+        [SetUp]
         public void SetUp()
         {
             ignoredClassNames = new HashSet<String>();
-		    ignoredNamespaces = new HashSet<String>();
-		    ignoredDuplicateObjectNames = new HashSet<String>();
+            ignoredNamespaces = new HashSet<String>();
+            ignoredDuplicateObjectNames = new HashSet<String>();
         }
 
         /// <summary>
-        /// Loads every object in the Spring context. Import Spring context files in the bootstrap context. 
-        /// BeanohTestCase looks for a Spring context in the classpath with the same name as the test plus "-BeanohContext.xml". 
-        /// For eaxmple 'SourceAllies.Anything.SomethingTest' will use 
+        /// Loads every object in the Spring.NET context. Import Spring context files in the bootstrap context. 
+        /// BeanohTestCase looks for a Spring context in the classpath with the same name as the test class plus 
+        /// "-BeanohContext.xml". For eaxmple 'SourceAllies.Anything.SomethingTest' will use 
         /// 'SourceAllies.Anything.SomethingTest-BeanohContext.xml' to bootstrap the Spring context.
         /// </summary>
         public void AssertContextLoading()
@@ -78,6 +78,9 @@ namespace SourceAllies.Beanoh
 
         }
 
+        /// <summary>
+        /// Test method that tests there are no duplicate object ids used in the Spring.NET context.
+        /// </summary>
         public void AssertUniqueObjectContextLoading()
         {
             AssertContextLoading(true);
@@ -85,40 +88,32 @@ namespace SourceAllies.Beanoh
 
         public void IgnoreDuplicateObjectNames(params string[] objectNames)
         {
-            foreach (string objectName in objectNames) 
+            foreach (string objectName in objectNames)
             {
-			    ignoredDuplicateObjectNames.Add(objectName);
-		    }
+                ignoredDuplicateObjectNames.Add(objectName);
+            }
         }
-        
-        
-        
-        //public void AssertComponentsInContext(String basePackage) 
-        //public void IgnoreClassNames(String... classNames) 
-        //public void IgnorePackages(String... packages)
-        
-        //private void AssertContextLoading(boolean assertUniqueBeans)
-        //private String MissingList(Set<String> missingComponents)
+
+
         private void IterateBeanDefinitions(IObjectDefinitionAction action)
         {
-		    String[] names = context.GetObjectDefinitionNames();
-		    foreach (String name in names) {
-			    IObjectDefinition objectDefinition = context.ObjectFactory.GetObjectDefinition(name);
-			    if (!objectDefinition.IsAbstract) {
-				    action.Execute(name, objectDefinition);
-			    }
-		    }
+            String[] names = context.GetObjectDefinitionNames();
+            foreach (String name in names)
+            {
+                IObjectDefinition objectDefinition = context.ObjectFactory.GetObjectDefinition(name);
+                if (!objectDefinition.IsAbstract)
+                {
+                    action.Execute(name, objectDefinition);
+                }
+            }
         }
-        //private void RemoveComponentsInPackages(final Set<String> scannedComponents) 
-        //private void RemoveIgnoredClasses(final Set<String> scannedComponents)
-        //private void CollectComponentsInClasspath(String basePackage,	final Set<String> scannedComponents,ClassPathScanningCandidateComponentProvider scanner)
 
         private void LoadContext()
         {
             if (context == null)
-            { 
+            {
                 String contextLocation = defaultContextLocationBuilder.build(GetType());
-                
+
                 try
                 {
                     context = new BeanohApplicationContext(contextLocation);
@@ -128,28 +123,27 @@ namespace SourceAllies.Beanoh
                 {
                     throw e;
                 }
-               catch (ObjectDefinitionStoreException e)
+                catch (ObjectDefinitionStoreException e)
                 {
                     throw new MissingConfigurationException("Unable to load "
                             + contextLocation + ".", e);
                 }
 
-               // TODO  : verify that we don't need to register request and session scopes here
             }
         }
 
-    protected class ObjectDefinitionGetter : IObjectDefinitionAction 
-    {
-        BeanohTestCase outerObject;
-        public ObjectDefinitionGetter(BeanohTestCase outerObject) 
+        protected class ObjectDefinitionGetter : IObjectDefinitionAction
         {
-            this.outerObject = outerObject;
+            BeanohTestCase outerObject;
+            public ObjectDefinitionGetter(BeanohTestCase outerObject)
+            {
+                this.outerObject = outerObject;
+            }
+            public void Execute(String Name, IObjectDefinition Definition)
+            {
+                this.outerObject.context.GetObject(Name);
+            }
         }
-        public void Execute(String Name, IObjectDefinition Definition) 
-        {
-            this.outerObject.context.GetObject(Name);   
-        }
-    }
 
 
     }

@@ -30,7 +30,7 @@ using Spring.Context.Support;
 namespace SourceAllies.Beanoh.Exception
 {
     /// <summary>
-    /// Exception that is thrown when Beanoh finds more than object defined with the same id
+    /// Exception that is thrown when Beanoh.NET finds more than one object defined with the same id
     /// </summary>
     /// <author>Akrem Saed</author>
     public class DuplicateObjectDefinitionException : System.ApplicationException

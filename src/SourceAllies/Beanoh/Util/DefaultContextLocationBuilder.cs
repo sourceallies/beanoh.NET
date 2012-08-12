@@ -29,9 +29,9 @@ using Common.Logging;
 namespace SourceAllies.Beanoh.Util
 {
     /// <summary>
-    ///  Builds the context location of the bootstrap context.
+    ///  Builds the resouce location of the Beanoh.NET bootstrap context.
     /// </summary>
-    /// <author>Akrem Saed (.NET)</author>
+    /// <author>Akrem Saed</author>
    public class DefaultContextLocationBuilder
     {
         private static ILog LOGGER = LogManager.GetLogger(typeof(DefaultContextLocationBuilder));

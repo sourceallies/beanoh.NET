@@ -37,68 +37,76 @@ namespace SourceAllies.Beanoh.Spring.Wrapper
     /// used to determine if duplicate object definitions have been loaded.
     /// </summary>
     /// <author>Akrem Saed</author>
-    public class BeanohApplicationContext : XmlApplicationContext 
+    public class BeanohApplicationContext : XmlApplicationContext
     {
         private IList<BeanohObjectFactoryMethodInterceptor> callbacks;
 
         public BeanohApplicationContext(String configLocation)
-            : base(false, "beanohAppContext", true, null, 
+            : base(false, "beanohAppContext", true, null,
             new String[] { configLocation, "assembly://Beanoh/SourceAllies.Beanoh.Spring/Base-BeanohContext.xml" })
         {
-            // TODO add an embedded data source in assembly://Beanoh/SourceAllies.Beanoh.Spring/Base-BeanohContext.xml
-            
+
             callbacks = new List<BeanohObjectFactoryMethodInterceptor>();
         }
 
-        protected override void LoadObjectDefinitions(DefaultListableObjectFactory  objectFactory)
+        protected override void LoadObjectDefinitions(DefaultListableObjectFactory objectFactory)
         {
+            //wrap the objectFactory with our own proxy so that we keep track of the objects ids defined in the Spring.NET context
             callbacks.Add(new BeanohObjectFactoryMethodInterceptor(objectFactory));
             ProxyGenerator generator = new ProxyGenerator();
             DefaultListableObjectFactory wrapper = (DefaultListableObjectFactory)generator.CreateClassProxy(objectFactory.GetType(), callbacks.ToArray());
+            //delegate to our proxy
             base.LoadObjectDefinitions(wrapper);
         }
 
-       
+        /// <summary>
+        /// Method that checks that no duplicate object definitions are defined in the context
+        /// </summary>
+        /// <param name="ignoredDuplicateObjectNames">We have the option of excluding some object ids from this check by passing
+        /// them as a set.</param>
         public void AssertUniqueObjects(ISet<String> ignoredDuplicateObjectNames)
         {
-            
-            foreach (BeanohObjectFactoryMethodInterceptor callback in callbacks) 
+
+            foreach (BeanohObjectFactoryMethodInterceptor callback in callbacks)
             {
-			IDictionary<string, IList<IObjectDefinition>> objectDefinitionMap = callback.ObjectDefinitionMap;
-			foreach (string key in objectDefinitionMap.Keys) {
-				if (!ignoredDuplicateObjectNames.Contains(key)) {
-					IList<IObjectDefinition> definitions = objectDefinitionMap[key];
-					IList<string> resourceDescriptions = new List<string>();
-					foreach (IObjectDefinition definition in definitions) 
+                IDictionary<string, IList<IObjectDefinition>> objectDefinitionMap = callback.ObjectDefinitionMap;
+                foreach (string key in objectDefinitionMap.Keys)
+                {
+                    if (!ignoredDuplicateObjectNames.Contains(key))
                     {
-						String resourceDescription = definition.ResourceDescription;
-						if (resourceDescription == null) 
+                        IList<IObjectDefinition> definitions = objectDefinitionMap[key];
+                        IList<string> resourceDescriptions = new List<string>();
+                        foreach (IObjectDefinition definition in definitions)
                         {
-							resourceDescriptions.Add(definition.ObjectTypeName);
-						} 
-                        else if (!resourceDescription.Contains("-BeanohContext.xml]")) 
-                        {
-							if(!resourceDescriptions.Contains(resourceDescription))
+                            String resourceDescription = definition.ResourceDescription;
+                            if (resourceDescription == null)
                             {
-								resourceDescriptions.Add(resourceDescription);
-							}
-						}
-					}
-					
-                    if (resourceDescriptions.Count > 1) 
-                    {
-						throw new DuplicateObjectDefinitionException("Object '"
-								+ key + "' was defined "
-								+ resourceDescriptions.Count + " times." 
-                                + Environment.NewLine
-                                + "Either remove duplicate object definitions or ignore them with the 'IgnoreDuplicateObjectNames' method." 
-                                + Environment.NewLine
-								+ "Configuration locations:"
-								+ MessageUtil.List(resourceDescriptions));
-					}
-				}
-			}
-		}
+                                resourceDescriptions.Add(definition.ObjectTypeName);
+                            }
+                            //objects defined in the Beanoh.NET bootstrap context are excluded from the check on uniqueness
+                            else if (!resourceDescription.Contains("-BeanohContext.xml]"))
+                            {
+                                if (!resourceDescriptions.Contains(resourceDescription))
+                                {
+                                    resourceDescriptions.Add(resourceDescription);
+                                }
+                            }
+                        }
+
+                        if (resourceDescriptions.Count > 1)
+                        {
+                            throw new DuplicateObjectDefinitionException("Object '"
+                                    + key + "' was defined "
+                                    + resourceDescriptions.Count + " times."
+                                    + Environment.NewLine
+                                    + "Either remove duplicate object definitions or ignore them with the 'IgnoreDuplicateObjectNames' method."
+                                    + Environment.NewLine
+                                    + "Configuration locations:"
+                                    + MessageUtil.List(resourceDescriptions));
+                        }
+                    }
+                }
+            }
         }
     }
 }

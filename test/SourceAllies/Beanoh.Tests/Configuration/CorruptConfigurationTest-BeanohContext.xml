@@ -17,7 +17,7 @@ http://www.gnu.org/licenses/lgpl-3.0.txt.
 -->
 <objects xmlns="http://www.springframework.net">
 
-
+  <!-- intentionally corrupted xml file for testing purposes -->
   <object id="AddressObjectFromXML" type="SourceAllies.Beanoh.Test.Address, Beanoh.Tests"/>
   <object id="PersonObjectFromXML" type="SourceAllies.Beanoh.Test.Person, Beanoh.Tests">
     <property name="Addresses">

@@ -1,4 +1,4 @@
-Beanoh.NET, pronounced \'bean?o?dot?net\ , is a simple open source way to verify you Spring.NET context. Teams that leverage Beanoh spend less time focusing on configuring Spring.NET and more time adding business value. 
+Beanoh.NET, pronounced \'beanˌō dot net\ , is a simple open source way to verify you Spring.NET context. Teams that leverage Beanoh spend less time focusing on configuring Spring.NET and more time adding business value. 
 
 For licensing information refer to the license section. 
 
@@ -105,8 +105,8 @@ Beanoh.NET can take those cases into consideration very easily, all you need is 
             public void testDuplicates()
             {
            	IgnoreDuplicateObjectNames("person");
-		AssertUniqueObjectContextLoading();
-             }
+		    AssertUniqueObjectContextLoading();
+            }
         }
     }
 

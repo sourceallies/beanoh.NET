@@ -1,12 +1,22 @@
 == I. Overview
 Beanoh.NET, pronounced \'beanˌōˌdotˌnet\ , is a simple open source way to verify you Spring.NET context. Teams that leverage Beanoh spend less time focusing on configuring Spring.NET and more time adding business value. 
 
+For licensing information refer to the license section. 
+
 == II. Features
 1. Verify that all of your objects are wired correctly
 2. Prevent duplicate object definition overwriting
 
 == III. Dependencies
 Beanoh.NET is for verifying Spring.NET contexts, so naturally it depends on Spring.NET. More specifically, Spring.Core, Spring.Aop and Spring.Data. Moreover, it also depends on Castle.Core for proxying, Common.Logging for logging, Moq for mocking and more importantly NUnit as the implementation framework of the Beanoh.NET test fixtures. 
+
+For Licensing information of those dependencies : 
+
+1. Castle.Core : Apache License V2.0 (http://www.apache.org/licenses/LICENSE-2.0.html)
+2. Common.Logging : Apache License V2.0 (http://www.apache.org/licenses/LICENSE-2.0.html)
+3. Moq : BSD License (http://opensource.org/licenses/bsd-license.php)
+4. NUnit : http://nunit.org/index.php?p=license&r=2.5
+5. Spring.NET : Apache License V2.0 (http://www.apache.org/licenses/LICENSE-2.0.html)
 
 == IV. Writing Beanoh.NET Test Fixtures
 Beanoh.NET tries to follow a simple convention so that you will spend less time learning Beanoh.NET and more on gaining the feedback it provides. The convention in question is that your NUnit test fixture needs to extend the base SourceAllies.Beanoh.BeanohTestCase test fixture, and writing one Spring.NET bootstrap context that loads all the contexts you need to verify. That bootstrap context need to be in a certain location and named in a certain way for it to be picked up by Beanoh.NET. We will talk about those requirements shortly. 
@@ -50,6 +60,7 @@ Now, you can just run the test and let Beanoh.NET do its magic.
 Something to point out is when the bootstrap conforms to these criteria, the effect will be that when you build your test assembly, you will find the test fixture class and the context living together in the same namespace in the generated DLL. Hence, if you have issues with running the test and you get a message saying couldn't find context, then your first troubleshooting task should be to inspect the tests assembly DLL and check that the bootstrap context and test fixture have the same namespace. You can inspect the DLL using tools like CodeReflect. 
 
 Note : In future Beanoh.NET releases, we might add some flexibility around how to define the bootstrap context once we get a better understanding how Beanoh.NET users want that to be. 
+
 ==== b. Assert No Duplicate Object Definitions
 Another feature of Beanoh.NET is it can point out if you have duplicate object definitions where you are using the same object id for defining two or more objects. We all ran into situations where we are trying to troubleshoot a bug where one of our objects are not behaving like they should, and after a painful debugging session we find out that we pulled in some context that defined another object with the same id and that's the one being used by our program. 
 
@@ -130,7 +141,6 @@ All you need to do is to override that IDbProvider object definition with anothe
 Now, you can run your tests even the AssertUniqueObjectContextLoading() calls without worrying that Beanoh.NET will say that "DbProvider" is duplicated because Beanoh.NET excludes objects defined in the bootstrap context. That's why we are restricting you to define only one bootstrap context and name it in a certain way so that Beanoh.NET can identify objects defined in it. 
 
 == V. Displaying Beanoh.NET logs 
-
 Beanoh.NET logs all pertaining messages using Common.Logging framework, for you to be able to see those log messages you need to add a reference to your favorite logging framework like log4net and also the appropriate connector framework that connects Common.Logging to your logging framework. In my case, it will be Common.Loggin.Log4Net. 
 
 Then your app.config needs to include the following lines and define the log4net configuration in a separate file log4net.config : 
@@ -156,3 +166,19 @@ Then your app.config needs to include the following lines and define the log4net
 </configuration>
 
 For more information on this, refer to Common.Logging documentation. 
+
+== VI. License
+Copyright (c) 2011  Source Allies
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation version 3.0.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, please visit 
+http://www.gnu.org/licenses/lgpl-3.0.txt.

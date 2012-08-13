@@ -40,6 +40,7 @@ http://www.gnu.org/licenses/lgpl-3.0.txt.
   <!-- the following are properties specific to this project -->
 
   <PropertyGroup>
+    <SrcVersionNumber>0.1.0.1</SrcVersionNumber>
     <OutputPath>.\build\</OutputPath>
     <SrcProjectName>Beanoh</SrcProjectName>
     <TestsProjectName>Beanoh.Tests</TestsProjectName>
@@ -106,6 +107,13 @@ http://www.gnu.org/licenses/lgpl-3.0.txt.
 
     <Exec Command="$(MSBuildExtensionsPath)\NuGet\NuGet pack $(SrcProjectDir)\$(SrcProjectName).csproj -OutputDirectory $(DistDir)\ -Symbols"/>
     
+  </Target>
+  
+  <!-- push nuget package to Nuget Gallery-->
+  <Target Name="NugetPush" DependsOnTargets="Run; NugetPack">
+
+    <Exec Command="$(MSBuildExtensionsPath)\NuGet\NuGet push $(DistDir)\$(SrcProjectName).$(SrcVersionNumber).nupkg"/>
+
   </Target>
   
   <!-- the following target builds the whole solution and publish the artifacts produced -->

@@ -8,7 +8,7 @@
     <!--<owners>$author$</owners>-->
     <licenseUrl>http://www.gnu.org/licenses/lgpl.html</licenseUrl>
     <projectUrl>http://github.com/sourceallies/beanoh.NET</projectUrl>
-    <iconUrl>http://www.beanoh.org/images/circle.png</iconUrl>
+    <iconUrl>https://raw.github.com/sourceallies/beanoh.NET/master/beanoh-logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <!--<releaseNotes>Summary of changes made in this release of the package.</releaseNotes>-->

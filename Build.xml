@@ -40,7 +40,7 @@ http://www.gnu.org/licenses/lgpl-3.0.txt.
   <!-- the following are properties specific to this project -->
 
   <PropertyGroup>
-    <SrcVersionNumber>0.1.0.1</SrcVersionNumber>
+    <SrcVersionNumber>0.1.0.2</SrcVersionNumber>
     <OutputPath>.\build\</OutputPath>
     <SrcProjectName>Beanoh</SrcProjectName>
     <TestsProjectName>Beanoh.Tests</TestsProjectName>
